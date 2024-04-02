@@ -14,9 +14,9 @@ export const getAllProducts = async () => {
   }
 };
 
-export const deleteProduct = async (productId) => {
+export const deleteProductService = async (productId) => {
   const authToken = localStorage.getItem("authToken");
-  const url = `${BASE_URL}/products/${productId}`;
+  const url = `${BASE_URL}/admin/${productId}`;
   const options = {
     method: "DELETE",
     headers: {
@@ -37,16 +37,25 @@ export const deleteProduct = async (productId) => {
   }
 };
 
-export const editProduct = async (productId, updatedProduct) => {
+export const editProductService = async (productId, updatedProduct) => {
   const authToken = localStorage.getItem("authToken");
-  const url = `${BASE_URL}/products/${productId}`;
+  const url = `${BASE_URL}/admin/${productId}`;
+  // const formData = new FormData();
+
+  // Object.entries(updatedProduct).forEach(([key, value]) => {
+  //   if (key === "image") {
+  //     formData.append(key, value[0]);
+  //   } else {
+  //     formData.append(key, value);
+  //   }
+  // });
+
   const options = {
     method: "PATCH",
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${authToken}`,
     },
-    body: JSON.stringify(updatedProduct),
+    body: updatedProduct,
   };
 
   try {
@@ -61,16 +70,26 @@ export const editProduct = async (productId, updatedProduct) => {
   }
 };
 
-export const addProduct = async (newProduct) => {
+export const addProductService = async (newProduct) => {
   const authToken = localStorage.getItem("authToken");
-  const url = `${BASE_URL}/products`;
+  const url = `${BASE_URL}/admin/addProduct`;
+  // const formData = new FormData();
+
+  // Object.entries(newProduct).forEach(([key, value]) => {
+  //   if (key === "image") {
+  //     formData.append(key, value[0]);
+  //   } else {
+  //     formData.append(key, value);
+  //   }
+  // });
+
   const options = {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${authToken}`,
     },
-    body: JSON.stringify(newProduct),
+    body: newProduct,
+    // formData,
   };
 
   try {
@@ -78,7 +97,7 @@ export const addProduct = async (newProduct) => {
     if (!response.ok) {
       throw new Error("Failed to add product");
     }
-    return await response.json(); // Return the newly added product data
+    return await response.json();
   } catch (error) {
     console.error("Error adding product:", error);
     throw error;

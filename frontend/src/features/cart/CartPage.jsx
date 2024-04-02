@@ -1,6 +1,8 @@
 import { useGetCart } from "./useGetCart";
 import CartItem from "./CartItem";
 import LoadingScreen from "../../components/LoadingScreen";
+import { loadStripe } from "@stripe/stripe-js";
+import { makePaymentService } from "../../services/orders.service";
 
 const CartPage = () => {
   const { isLoading, cart, error } = useGetCart();
@@ -22,6 +24,21 @@ const CartPage = () => {
     totalCost += itemTotal;
   });
 
+  async function makePayment() {
+    const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PK);
+    const body = cart;
+    try {
+      const session = await makePaymentService(body);
+
+      const result = stripe.redirectToCheckout({
+        sessionId: session.id,
+      });
+      console.log("Order created successfully:", result);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <div className="mx-20">
       <div>
@@ -40,7 +57,10 @@ const CartPage = () => {
             </span>
           </div>
           <div>
-            <button className="rounded-md bg-custom-purple px-4 py-2 text-custom-gray">
+            <button
+              onClick={makePayment}
+              className="rounded-md bg-custom-purple px-4 py-2 text-custom-gray"
+            >
               Checkout
             </button>
           </div>

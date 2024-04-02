@@ -1,6 +1,5 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-import ProductDetail from "./pages/ProductDetail";
 import MyOrders from "./pages/MyOrders";
 import Checkout from "./pages/Checkout";
 import Cart from "./pages/Cart";
@@ -12,6 +11,10 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AuthProvider } from "./features/auth/AuthContext";
 import AdminDashboard from "./pages/AdminDashboard";
 import { Toaster } from "react-hot-toast";
+import EditProduct from "./pages/EditProduct";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentFailed from "./pages/PaymentFailed";
+import { SessionProvider } from "./features/cart/SessionContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,43 +28,47 @@ const queryClient = new QueryClient({
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <AuthProvider>
-        <Toaster
-          position="top-center"
-          gutter={12}
-          containerStyle={{ margin: "16px" }}
-          toastOptions={{
-            success: {
-              duration: 3000,
-            },
-            error: {
-              duration: 5000,
-            },
-            style: {
-              fontSize: "16px",
-              maxWidth: "500px",
-              padding: "16px 24px",
-              backgroundColor: "var(--color-grey-0)",
-              color: "var(--color-grey-700)",
-            },
-          }}
-        />
-        <Router>
-          <Routes>
-            <Route path="/" element={<Navbar />}>
-              <Route path="" element={<Home />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/product/:productId" element={<ProductDetail />} />
-              <Route path="/myorders" element={<MyOrders />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/admin" element={<AdminDashboard />} />
-            </Route>
-          </Routes>
-        </Router>
-      </AuthProvider>
+      <SessionProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <AuthProvider>
+          <Toaster
+            position="top-center"
+            gutter={12}
+            containerStyle={{ margin: "16px" }}
+            toastOptions={{
+              success: {
+                duration: 3000,
+              },
+              error: {
+                duration: 5000,
+              },
+              style: {
+                fontSize: "16px",
+                maxWidth: "500px",
+                padding: "16px 24px",
+                backgroundColor: "var(--color-grey-0)",
+                color: "var(--color-grey-700)",
+              },
+            }}
+          />
+          <Router>
+            <Routes>
+              <Route path="/" element={<Navbar />}>
+                <Route path="" element={<Home />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/myorders" element={<MyOrders />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/edit/:productId" element={<EditProduct />} />
+                <Route path="/success" element={<PaymentSuccess />} />
+                <Route path="/failed" element={<PaymentFailed />} />
+              </Route>
+            </Routes>
+          </Router>
+        </AuthProvider>
+      </SessionProvider>
     </QueryClientProvider>
   );
 };

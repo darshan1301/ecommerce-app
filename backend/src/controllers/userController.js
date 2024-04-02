@@ -23,11 +23,6 @@ export const userSignup = async (req, res) => {
     });
 
     const result = await newUser.save();
-    // // Create an empty cart for the new user
-    // const newCart = new Cart({
-    //   user: result._id, // Associate the cart with the newly created user
-    //   products: [],
-    // });
 
     const tokenPayload = {
       userId: result._id,

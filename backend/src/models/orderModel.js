@@ -14,7 +14,6 @@ const orderSchema = new Schema({
   },
   total: {
     type: Number,
-    default: 0,
   },
   address: {
     type: String,
@@ -24,6 +23,15 @@ const orderSchema = new Schema({
   created: {
     type: Date,
     default: Date.now,
+  },
+  sessionId: {
+    type: String,
+    required: true,
+  },
+  status: {
+    type: String,
+    default: "Processing",
+    enum: ["Processing", "Shipped", "Delivered"],
   },
 });
 

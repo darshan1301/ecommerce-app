@@ -10,7 +10,7 @@ const AllProducts = () => {
   return (
     <div className="grid grid-cols-2 gap-4 bg-custom-gray px-14 py-4 lg:grid-cols-4 lg:px-28">
       {products.map((item) => (
-        <ProductCard key={item.id} product={item} />
+        <ProductCard key={item._id} product={item} />
       ))}
     </div>
   );

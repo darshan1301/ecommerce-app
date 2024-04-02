@@ -35,6 +35,7 @@ const verifyToken = (req, res, next) => {
 export function authRole(role) {
   return (req, res, next) => {
     if (req.user.role !== role) {
+      console.log(req.user.role);
       return res.status(401).json({ message: "Not allowed" });
     }
     next();

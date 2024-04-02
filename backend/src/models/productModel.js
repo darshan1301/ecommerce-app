@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const productSchema = new Schema({
   id: {
-    type: Number,
+    type: String,
     required: true,
     unique: true,
   },
@@ -32,10 +32,12 @@ const productSchema = new Schema({
     rate: {
       type: Number,
       required: true,
+      default: 3,
     },
     count: {
       type: Number,
       required: true,
+      default: 0,
     },
   },
   lastUpdated: {

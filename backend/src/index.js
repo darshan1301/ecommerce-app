@@ -7,12 +7,18 @@ import adminDashboardRoute from "./routes/adminDashboardRoute.js";
 import cors from "cors";
 import bodyParser from "body-parser";
 import morgan from "morgan";
-
-import { authRole, isAuthenticated } from "./auth/auth.js";
+import fs from "fs";
 
 import { config } from "dotenv";
 import { connectMongoDB } from "./dbConnection/dbConnect.js";
 config();
+
+const uploadDir = "src/my-uploads";
+
+// Ensure the destination folder exists
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
 
 const app = express();
 app.use(morgan("dev"));
@@ -37,7 +43,7 @@ app.use("/products", productRoute);
 app.use("/cart", cartRoute);
 app.use("/orders", ordersRoute);
 
-app.use("/admin", isAuthenticated, authRole("ADMIN"), adminDashboardRoute);
+app.use("/admin", adminDashboardRoute);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);

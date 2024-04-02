@@ -1,9 +1,16 @@
 import Product from "../models/productModel.js";
+import {
+  deleteFromCloudinary,
+  extractPublicId,
+  uploadCloudinary,
+} from "../utils/cloudinary.js";
+import { v4 as uuidv4 } from "uuid";
 
 export const editProduct = async (req, res) => {
   try {
     const productId = req.params.productId;
-    const { title, price, description, category, image, rating } = req.body;
+    const { title, price, description, category } = req.body;
+    console.log("EDIT PRODUCT", req.body);
 
     // Check if the product exists
     const existingProduct = await Product.findById(productId);
@@ -11,13 +18,16 @@ export const editProduct = async (req, res) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
+    if (req.file) {
+      existingProduct.image = await uploadCloudinary(file.path);
+    }
+
     // Update the product fields
     existingProduct.title = title;
     existingProduct.price = price;
     existingProduct.description = description;
     existingProduct.category = category;
-    existingProduct.image = image;
-    existingProduct.rating = rating;
+    existingProduct.image = existingProduct.image;
 
     // Save the updated product
     const updatedProduct = await existingProduct.save();
@@ -31,16 +41,19 @@ export const editProduct = async (req, res) => {
 
 export const addProduct = async (req, res) => {
   try {
-    const { title, price, description, category, image, rating } = req.body;
+    const { title, price, description, category } = req.body;
+    const file = req.file;
+
+    const image = await uploadCloudinary(file.path);
 
     // Create a new product instance
     const newProduct = new Product({
+      id: uuidv4(),
       title,
       price,
       description,
       category,
       image,
-      rating,
     });
 
     // Save the new product to the database
@@ -57,8 +70,12 @@ export const deleteProduct = async (req, res) => {
   try {
     const productId = req.params.productId;
 
-    // Find the product by ID and delete it
     const deletedProduct = await Product.findByIdAndDelete(productId);
+
+    const publicId = extractPublicId(deletedProduct.image);
+    if (publicId) {
+      await deleteFromCloudinary(publicId);
+    }
 
     if (!deletedProduct) {
       return res.status(404).json({ message: "Product not found" });

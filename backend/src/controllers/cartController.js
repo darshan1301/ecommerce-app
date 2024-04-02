@@ -69,13 +69,11 @@ export const updateCart = async (req, res) => {
     if (item.quantity > 1) {
       item.quantity -= 1;
     } else {
-      // Optional: Remove the item from the cart if quantity is 1
       cart.products = cart.products.filter(
         (item) => item.product.toString() !== productId
       );
     }
 
-    // Save the updated cart
     await cart.save();
 
     res.status(200).json(cart);
@@ -88,20 +86,17 @@ export const updateCart = async (req, res) => {
 export const deleteFromCart = async (req, res) => {
   try {
     const productId = req.params.productId;
-    const userId = req.user.userId; // Assuming user is authenticated and user ID is available in the request
+    const userId = req.user.userId;
 
-    // Find the user's cart
     const cart = await Cart.findOne({ user: userId });
     if (!cart) {
       return res.status(404).json({ message: "Cart not found" });
     }
 
-    // Remove the item from the cart
     cart.products = cart.products.filter(
       (item) => item.product.toString() !== productId
     );
 
-    // Save the updated cart
     await cart.save();
 
     res.status(200).json(cart);
