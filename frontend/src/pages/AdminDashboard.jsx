@@ -2,6 +2,7 @@ import { useState } from "react";
 import Items from "../features/adminDashboard/Items";
 import ProductForm from "../features/adminDashboard/ProductForm";
 import { useAddItem } from "../features/adminDashboard/useAddItem";
+import LoadingScreen from "../components/LoadingScreen";
 
 const AdminDashboard = () => {
   const [openForm, setOpenForm] = useState(false);
@@ -11,6 +12,8 @@ const AdminDashboard = () => {
     addProduct(product);
     if (!isAdding) setOpenForm(false);
   }
+
+  if (isAdding) <LoadingScreen />;
 
   return (
     <>

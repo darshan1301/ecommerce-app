@@ -37,18 +37,11 @@ export const deleteProductService = async (productId) => {
   }
 };
 
-export const editProductService = async (productId, updatedProduct) => {
+export const editProductService = async ({ productId, updatedProduct }) => {
+  console.log(productId, updatedProduct);
+
   const authToken = localStorage.getItem("authToken");
   const url = `${BASE_URL}/admin/${productId}`;
-  // const formData = new FormData();
-
-  // Object.entries(updatedProduct).forEach(([key, value]) => {
-  //   if (key === "image") {
-  //     formData.append(key, value[0]);
-  //   } else {
-  //     formData.append(key, value);
-  //   }
-  // });
 
   const options = {
     method: "PATCH",

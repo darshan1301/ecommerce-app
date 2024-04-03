@@ -3,7 +3,7 @@ import { Cart } from "../models/cartModel.js";
 import stripePackage from "stripe";
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config("/src/.env");
 
 const stripe = stripePackage(
   "sk_test_51P12CTSEgQluV2glcsj5QjkedOxL35QqsmBzzqUNAUiBhcy2KQg4uRAy6WEqJTeL1nukOGmO33D4u67c5kXYmWX200q4E2zaqv"
@@ -49,9 +49,8 @@ export const createPayment = async (req, res) => {
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
-      success_url: `https://ecommerce-app-sfgf-git-main-darshan1301s-projects.vercel.app/success`,
-      cancel_url:
-        "https://ecommerce-app-sfgf-git-main-darshan1301s-projects.vercel.app/failed",
+      success_url: process.env.PAYMENT_SUCCESS,
+      cancel_url: process.env.PAYMENT_FAILED,
     });
 
     res.status(201).json({ id: session.id });

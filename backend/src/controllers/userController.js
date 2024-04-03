@@ -80,10 +80,10 @@ export const userLogin = async (req, res) => {
 
 export const getUserInfo = async (req, res) => {
   const userId = req.user.userId;
+  console.log(req.user.userId);
   try {
     const user = await User.findById(userId).select("-password");
 
-    // console.log(user);
     res.status(200).json({ user });
   } catch (error) {
     res.status(404).json({ message: "User not found!" });

@@ -10,6 +10,11 @@ const CartPage = () => {
 
   if (isLoading) return <LoadingScreen />;
 
+  if (!cart)
+    return (
+      <p className="mt-10 flex justify-center">Please add item to cart.</p>
+    );
+
   if (error)
     return (
       <p className="m-10 flex justify-center">

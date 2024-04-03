@@ -3,8 +3,10 @@ import { loginService } from "../../services/user.service";
 import { useState } from "react";
 import { useAuth } from "./AuthContext";
 import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 const LoginForm = () => {
+  const queryClient = useQueryClient();
   const { setToken } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -23,6 +25,7 @@ const LoginForm = () => {
       const res = await loginService(formData);
       setToken(res.token);
       toast.success("Logged In.");
+      await queryClient.refetchQueries("User");
       navigate(-1);
     } catch (error) {
       console.error(error);

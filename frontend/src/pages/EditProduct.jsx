@@ -1,16 +1,18 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useProducts } from "../features/products/useProducts";
-import ProductForm from "../features/adminDashboard/ProductForm";
 import LoadingScreen from "../components/LoadingScreen";
 import { useEditItem } from "../features/adminDashboard/useEditItem";
+import ProductForm from "../features/adminDashboard/ProductForm";
 
 const EditProduct = () => {
   const { productId } = useParams();
   const { isLoading, products } = useProducts();
   const { isEditing, editProduct } = useEditItem();
+  const navigate = useNavigate();
 
-  function handleEdit(product) {
-    editProduct(productId, product);
+  function handleEdit(updatedProduct) {
+    editProduct({ productId, updatedProduct });
+    navigate("/admin");
   }
 
   if (isLoading || isEditing) return <LoadingScreen />;

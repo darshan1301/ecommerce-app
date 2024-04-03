@@ -8,7 +8,7 @@ const Items = () => {
   return (
     <>
       {products.map((item) => (
-        <ItemCard key={item._id} product={item} />
+        <ItemCard key={item.image} product={item} />
       ))}
     </>
   );

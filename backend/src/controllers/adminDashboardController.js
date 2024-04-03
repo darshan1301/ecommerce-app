@@ -10,7 +10,7 @@ export const editProduct = async (req, res) => {
   try {
     const productId = req.params.productId;
     const { title, price, description, category } = req.body;
-    console.log("EDIT PRODUCT", req.body);
+    // console.log("EDIT PRODUCT", req.body);
 
     // Check if the product exists
     const existingProduct = await Product.findById(productId);
@@ -19,7 +19,7 @@ export const editProduct = async (req, res) => {
     }
 
     if (req.file) {
-      existingProduct.image = await uploadCloudinary(file.path);
+      existingProduct.image = await uploadCloudinary(req.file.path);
     }
 
     // Update the product fields
@@ -69,10 +69,11 @@ export const addProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   try {
     const productId = req.params.productId;
+    console.log("productId", productId);
 
-    const deletedProduct = await Product.findByIdAndDelete(productId);
+    const deletedProduct = await Product.findByIdAndDelete(String(productId));
 
-    const publicId = extractPublicId(deletedProduct.image);
+    const publicId = extractPublicId(deletedProduct?.image);
     if (publicId) {
       await deleteFromCloudinary(publicId);
     }

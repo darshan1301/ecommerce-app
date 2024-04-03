@@ -4,7 +4,7 @@ import { useAddToCart } from "./useAddToCart";
 const ProductCard = ({ product }) => {
   const { isAdding, addToCart } = useAddToCart();
   return (
-    <div className="h-auto w-72 self-center rounded-lg bg-white py-3">
+    <div className="h-auto w-48 self-center rounded-lg bg-white py-3 md:w-72">
       <div className="flex h-48 w-full items-center justify-center overflow-hidden bg-white object-cover">
         <img src={product.image} width={"110px"} />
       </div>
