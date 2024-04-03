@@ -49,8 +49,9 @@ export const createPayment = async (req, res) => {
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
-      success_url: `http://localhost:5173/success`,
-      cancel_url: "http://localhost:5173/failed",
+      success_url: `https://ecommerce-app-sfgf-git-main-darshan1301s-projects.vercel.app/success`,
+      cancel_url:
+        "https://ecommerce-app-sfgf-git-main-darshan1301s-projects.vercel.app/failed",
     });
 
     res.status(201).json({ id: session.id });
