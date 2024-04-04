@@ -14,14 +14,14 @@ const Navbar = () => {
     navigate("/");
   }
   return (
-    <div className="">
-      <nav className="mb-1 flex w-full items-center justify-between  bg-white px-4 py-3 shadow-lg md:px-20">
+    <div className="overflow-auto">
+      <nav className="fixed top-0 mb-1 flex w-full items-center justify-between  bg-black px-4 py-3 shadow-lg md:px-20">
         <div>
-          <h1 className="text-lg font-semibold uppercase">
+          <h1 className="text-lg font-semibold uppercase text-custom-gray">
             <NavLink to={"/"}>Ecommerce</NavLink>
           </h1>
         </div>
-        <div className="space-x-6 text-sm font-medium uppercase text-custom-purple">
+        <div className="space-x-6 text-sm font-medium uppercase text-custom-gray">
           {authToken ? (
             <>
               <NavLink to={"/cart"}>Cart</NavLink>
@@ -41,8 +41,9 @@ const Navbar = () => {
           )}
         </div>
       </nav>
-
-      <Outlet />
+      <div className="mt-14">
+        <Outlet />
+      </div>
     </div>
   );
 };
