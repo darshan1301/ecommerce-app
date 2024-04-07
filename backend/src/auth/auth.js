@@ -1,9 +1,5 @@
 import jwt from "jsonwebtoken";
 
-// const ROLE = {
-//   ADMIN: "admin",
-//   USER: "user",
-// };
 
 const verifyToken = (req, res, next) => {
   let token;
