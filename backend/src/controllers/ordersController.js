@@ -6,8 +6,7 @@ import dotenv from "dotenv";
 dotenv.config("/src/.env");
 
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
-const endpointSecret =
-  "whsec_1fbf8ae94285d4cb0f4aaffaec840952fc1c612cdda4a759d65ee20d5f2cec0f";
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 const stripe = stripePackage(
   "sk_test_51P12CTSEgQluV2glcsj5QjkedOxL35QqsmBzzqUNAUiBhcy2KQg4uRAy6WEqJTeL1nukOGmO33D4u67c5kXYmWX200q4E2zaqv"
