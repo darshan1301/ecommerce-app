@@ -8,6 +8,9 @@ import { authRole, isAuthenticated } from "../auth/auth.js";
 
 const router = express.Router();
 
+router.use(express.json());
+router.use(express.urlencoded({ extended: true }));
+
 router.post("/signup", userSignup);
 
 router.post("/login", userLogin);

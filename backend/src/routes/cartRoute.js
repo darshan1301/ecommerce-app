@@ -9,6 +9,9 @@ import { isAuthenticated } from "../auth/auth.js";
 
 const router = express.Router();
 
+router.use(express.json());
+router.use(express.urlencoded({ extended: true }));
+
 router.get("/", isAuthenticated, getCart);
 router.post("/addToCart", isAuthenticated, addToCart);
 router.patch("/:productId", isAuthenticated, updateCart);

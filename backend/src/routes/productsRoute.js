@@ -6,6 +6,9 @@ import {
 
 const router = express.Router();
 
+router.use(express.json());
+router.use(express.urlencoded({ extended: true }));
+
 router.get("/", getProducts);
 router.get("/:productId", getProductDetails);
 

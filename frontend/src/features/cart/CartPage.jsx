@@ -38,7 +38,7 @@ const CartPage = () => {
       const result = stripe.redirectToCheckout({
         sessionId: session.id,
       });
-      console.log("Order created successfully:", result);
+      // console.log("Order created successfully:", result);
     } catch (error) {
       console.error(error);
     }

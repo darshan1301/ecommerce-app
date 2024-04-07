@@ -3,6 +3,7 @@ import userRoute from "./routes/userRoute.js";
 import productRoute from "./routes/productsRoute.js";
 import cartRoute from "./routes/cartRoute.js";
 import ordersRoute from "./routes/ordersRoute.js";
+import paymentRoute from "./routes/paymentRoute.js";
 import adminDashboardRoute from "./routes/adminDashboardRoute.js";
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -25,8 +26,11 @@ app.use(morgan("dev"));
 
 app.use(cors());
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+//FOR STRIPE
+// app.use(bodyParser.raw({ type: "*/*" }));
+
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
 
 connectMongoDB(process.env.DATABASE_URL);
 
@@ -42,6 +46,7 @@ app.use("/user", userRoute);
 app.use("/products", productRoute);
 app.use("/cart", cartRoute);
 app.use("/orders", ordersRoute);
+app.use("/webhook", paymentRoute);
 
 app.use("/admin", adminDashboardRoute);
 

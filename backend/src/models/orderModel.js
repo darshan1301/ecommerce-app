@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 // Order Schema
 const orderSchema = new Schema({
   cart: {
-    type: Schema.Types.ObjectId,
+    type: Object,
     ref: "Cart",
   },
   user: {
@@ -23,10 +23,6 @@ const orderSchema = new Schema({
   created: {
     type: Date,
     default: Date.now,
-  },
-  sessionId: {
-    type: String,
-    required: true,
   },
   status: {
     type: String,
