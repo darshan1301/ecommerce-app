@@ -60,9 +60,9 @@ const App = () => {
               <Route path="/signup" element={<Signup />} />
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/edit/:productId" element={<EditProduct />} />
-              <Route path="/success" element={<PaymentSuccess />} />
-              <Route path="/failed" element={<PaymentFailed />} />
             </Route>
+            <Route path="/success" element={<PaymentSuccess />} />
+            <Route path="/failed" element={<PaymentFailed />} />
           </Routes>
         </Router>
       </AuthProvider>

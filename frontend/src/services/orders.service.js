@@ -41,31 +41,3 @@ export const makePaymentService = async (body) => {
     throw error;
   }
 };
-
-// export const createOrderService = async (cartId, sessionId) => {
-//   try {
-//     const authToken = localStorage.getItem("authToken");
-//     const url = "/api/orders"; // Update with your API endpoint
-//     const options = {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${authToken}`,
-//       },
-//       body: JSON.stringify({
-//         cartId,
-//         sessionId,
-//       }),
-//     };
-
-//     const response = await fetch(url, options);
-//     if (!response.ok) {
-//       throw new Error("Failed to create order");
-//     }
-
-//     return await response.json();
-//   } catch (error) {
-//     console.error("Error creating order:", error);
-//     throw error;
-//   }
-// };
