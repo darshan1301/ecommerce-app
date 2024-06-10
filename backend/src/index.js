@@ -6,12 +6,12 @@ import ordersRoute from "./routes/ordersRoute.js";
 import paymentRoute from "./routes/paymentRoute.js";
 import adminDashboardRoute from "./routes/adminDashboardRoute.js";
 import cors from "cors";
-import bodyParser from "body-parser";
 import morgan from "morgan";
 import fs from "fs";
 
 import { config } from "dotenv";
 import { connectMongoDB } from "./dbConnection/dbConnect.js";
+import rateLimit from "express-rate-limit";
 config();
 
 const uploadDir = "src/my-uploads";
@@ -21,13 +21,18 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
 
+const rateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 200, // limit each IP to 100 requests per windowMs
+  message: "Too many requests from this IP, please try again after 15 minutes",
+});
+
 const app = express();
 app.use(morgan("dev"));
 
 app.use(cors());
-
-//FOR STRIPE
-// app.use(bodyParser.raw({ type: "*/*" }));
+app.use(express.json({ limit: "10mb" }));
+app.use(rateLimiter);
 
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));
