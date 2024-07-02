@@ -62,12 +62,14 @@ const CartPage = () => {
             </span>
           </div>
           <div>
-            <button
-              onClick={makePayment}
-              className="rounded-md bg-custom-purple px-4 py-2 text-custom-gray"
-            >
-              Checkout
-            </button>
+            {totalCost !== 0 && (
+              <button
+                onClick={makePayment}
+                className="rounded-md bg-custom-purple px-4 py-2 text-custom-gray"
+              >
+                Checkout
+              </button>
+            )}
           </div>
         </div>
       </div>

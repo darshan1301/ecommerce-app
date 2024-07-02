@@ -1,6 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { createContext, useContext, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 import { getUserInfoService } from "../../services/user.service";
 
 const AuthContext = createContext();
@@ -27,31 +33,35 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(true);
   };
 
-  const clearToken = () => {
+  const clearToken = useCallback(() => {
     setauthToken("");
     localStorage.removeItem("authToken");
     // Clear data for USER
     queryClient.removeQueries("User");
     setIsAuthenticated(false);
-  };
+  }, [queryClient]);
 
-  const headers = {
-    Authorization: `Bearer ${authToken}`,
-  };
+  const headers = useMemo(
+    () => ({
+      Authorization: `Bearer ${authToken}`,
+    }),
+    [authToken],
+  );
+
+  const contextValue = useMemo(
+    () => ({
+      authToken,
+      setToken,
+      clearToken,
+      headers,
+      isAuthenticated,
+      userData,
+    }),
+    [authToken, isAuthenticated, userData, clearToken, headers],
+  );
 
   return (
-    <AuthContext.Provider
-      value={{
-        authToken,
-        setToken,
-        clearToken,
-        headers,
-        isAuthenticated,
-        userData,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 };
 

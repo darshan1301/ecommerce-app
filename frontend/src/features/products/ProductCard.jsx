@@ -1,8 +1,18 @@
+import { useAuth } from "../auth/AuthContext";
 import { useAddToCart } from "./useAddToCart";
+import toast from "react-hot-toast";
 
 /* eslint-disable react/prop-types */
 const ProductCard = ({ product }) => {
   const { isAdding, addToCart } = useAddToCart();
+  const { isAuthenticated } = useAuth();
+  function handleAddToCart(id) {
+    if (isAuthenticated) {
+      addToCart(id);
+    } else {
+      toast.error("Please login first.");
+    }
+  }
   return (
     <div className="h-auto w-48 self-center rounded-lg bg-white py-3 md:w-72">
       <div className="flex h-48 w-full items-center justify-center overflow-hidden bg-white object-cover">
@@ -16,7 +26,7 @@ const ProductCard = ({ product }) => {
       <div className="flex justify-center">
         <button
           disabled={isAdding}
-          onClick={() => addToCart(product._id)}
+          onClick={() => handleAddToCart(product._id)}
           className=" rounded-md border border-black px-4 py-1 text-sm font-light uppercase text-black hover:bg-black hover:text-custom-gray"
         >
           Add To Cart
